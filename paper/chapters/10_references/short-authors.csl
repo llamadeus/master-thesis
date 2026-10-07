@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="en-US">
+  <info>
+    <title>Thesis short-author citations</title>
+    <id>urn:uuid:12bd3d5e-f40c-4f51-a8e4-91621dc8e575</id>
+    <author><name>Amadeus Beckmann</name></author>
+    <category citation-format="numeric"/>
+    <summary>Author-only and numeric prose citations for the thesis; not a full bibliography style.</summary>
+    <updated>2026-10-07T00:00:00+00:00</updated>
+    <rights license="https://opensource.org/license/mit">MIT License
+
+Copyright (c) 2026 Amadeus Beckmann
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</rights>
+  </info>
+  <!-- Typst uses this numeric layout for the reference part of prose citations. -->
+  <citation>
+    <layout prefix="[" suffix="]" delimiter=", ">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+  <!-- Typst extracts authors from this layout for form="author" and form="prose". -->
+  <bibliography>
+    <layout>
+      <names variable="author">
+        <name form="short" and="text" delimiter-precedes-last="never" et-al-min="3" et-al-use-first="1"/>
+      </names>
+    </layout>
+  </bibliography>
+</style>

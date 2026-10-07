@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.1.0",
+  "control_metrics": [
+    {
+      "id": "chlorine_shortfall_fraction",
+      "label": "Chlorine shortfalls",
+      "symbol": "f_low^N",
+      "group": "normal_operation",
+      "primary": true,
+      "unit": "fraction",
+      "value_kind": "fraction",
+      "better": "lower",
+      "primary_component": "main_normal",
+      "components": ["main_normal"],
+      "numerator": "Number of monitored node-time observations with chlorine below 0.2 mg/L",
+      "denominator": "Eligible monitored node-time observations in the reference-normal part of the main window"
+    },
+    {
+      "id": "normal_chlorine_excess_fraction",
+      "label": "Chlorine excesses during normal operation",
+      "symbol": "f_high^N",
+      "group": "normal_operation",
+      "primary": true,
+      "unit": "fraction",
+      "value_kind": "fraction",
+      "better": "lower",
+      "primary_component": "main_normal",
+      "components": ["main_normal"],
+      "numerator": "Number of monitored node-time observations with chlorine above 0.4 mg/L",
+      "denominator": "Eligible monitored node-time observations in the reference-normal part of the main window"
+    },
+    {
+      "id": "arsenic_burden",
+      "label": "Transported arsenic burden",
+      "symbol": "B_As^E",
+      "group": "contamination_response",
+      "primary": true,
+      "unit": "mg h/L",
+      "value_kind": "additive",
+      "better": "lower",
+      "primary_component": "total",
+      "components": ["main", "tail", "total"],
+      "aggregation": "The total is the sum of the main-window and tail-window components."
+    },
+    {
+      "id": "chlorine_ceiling_violation_fraction",
+      "label": "Chlorine ceiling violations",
+      "symbol": "f_cap^E",
+      "group": "contamination_response",
+      "primary": true,
+      "unit": "fraction",
+      "value_kind": "fraction",
+      "better": "lower",
+      "primary_component": "total",
+      "components": ["main", "tail", "total"],
+      "numerator": "Number of monitored node-time observations with chlorine above 5.0 mg/L in the reference-event regime",
+      "denominator": "Eligible monitored node-time observations in the reference-event regime",
+      "aggregation": "The total pools main-window and tail-window numerators and denominators. Window fractions are never averaged or added."
+    },
+    {
+      "id": "arsenic_clearance_lead",
+      "label": "Arsenic clearance lead",
+      "symbol": "Delta_clear",
+      "group": "contamination_response",
+      "primary": true,
+      "unit": "h",
+      "value_kind": "timing",
+      "better": "higher",
+      "primary_component": "total",
+      "components": ["total"],
+      "aggregation": "Mean clearance lead within the common paired eligible event population of each case, then applicable cases within each scenario and equal scenario weights. No-exceedance clusters are reported separately; no additive main/tail decomposition."
+    },
+    {
+      "id": "chlorine_use",
+      "label": "Evaluated chlorine use",
+      "symbol": "U_eval",
+      "group": "resource_use",
+      "primary": true,
+      "unit": "mg",
+      "value_kind": "additive",
+      "better": "lower",
+      "primary_component": "total",
+      "components": ["main_normal", "main_event", "tail_event", "total"],
+      "aggregation": "The total is the sum of main-normal, main-event, and tail-event use."
+    },
+    {
+      "id": "evaluation_return",
+      "label": "Undiscounted evaluation return",
+      "symbol": "R_eval",
+      "group": "online_interaction_efficiency",
+      "primary": false,
+      "unit": "reward",
+      "value_kind": "additive",
+      "better": "higher",
+      "primary_component": "total",
+      "components": ["total"],
+      "aggregation": "The total is the undiscounted sum of original, unnormalized rewards over the main window and complete clearance tail, including reference-normal tail samples, after warm-up."
+    }
+  ],
+  "forecast_metrics": [
+    {
+      "id": "forecast_mae",
+      "label": "Forecast mean absolute error",
+      "unit": "mg/L",
+      "better": "lower",
+      "derivation": "For each training seed, fold, scenario, and horizon step, divide absolute_error_sum_mg_l by observation_count. Average scenario values equally, then model errors across folds within each seed. Report the mean and sample standard deviation across seed means."
+    },
+    {
+      "id": "forecast_rmse",
+      "label": "Forecast root mean squared error",
+      "unit": "mg/L",
+      "better": "lower",
+      "derivation": "For each training seed, fold, scenario, and horizon step, take the square root of squared_error_sum_mg2_l2 divided by observation_count. Average scenario RMSE values equally, then model errors across folds within each seed. Report the mean and sample standard deviation across seed means."
+    }
+  ]
+}

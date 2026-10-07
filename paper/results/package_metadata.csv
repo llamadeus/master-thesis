@@ -1,0 +1,2 @@
+dataset_id,schema_version,data_kind,created_at,producer,code_revision,experiment_id,notes
+hanoi-principal-v89-five-seed,1.1.0,experimental,2026-10-05T15:36:54.116327+00:00,tools/analysis/export_principal_v89_paper_results.py,,hanoi-principal-v89,Offline generation measured; final policy tests use validation-selected checkpoints.

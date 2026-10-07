@@ -1,0 +1,837 @@
+{
+  "$schema": "https://specs.frictionlessdata.io/schemas/data-package.json",
+  "profile": "tabular-data-package",
+  "name": "thesis-results",
+  "title": "Results data contract for the chlorine-control study",
+  "description": "Normalized source tables for the Results chapter. The same contract is used for synthetic fixtures and experimental results.",
+  "version": "1.1.0",
+  "licenses": [],
+  "resources": [
+    {
+      "name": "package-metadata",
+      "path": "../results/package_metadata.csv",
+      "profile": "tabular-data-resource",
+      "description": "One-row provenance record for the complete data package.",
+      "schema": {
+        "missingValues": [""],
+        "fields": [
+          {
+            "name": "dataset_id",
+            "type": "string",
+            "constraints": {"required": true, "unique": true}
+          },
+          {
+            "name": "schema_version",
+            "type": "string",
+            "constraints": {"required": true, "pattern": "^1\\.[0-9]+\\.[0-9]+$"}
+          },
+          {
+            "name": "data_kind",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["synthetic", "experimental"]}
+          },
+          {
+            "name": "created_at",
+            "type": "datetime",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "producer",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "code_revision",
+            "type": "string"
+          },
+          {
+            "name": "experiment_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "notes",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "dataset_id"
+      }
+    },
+    {
+      "name": "checkpoints",
+      "path": "../results/checkpoints.csv",
+      "profile": "tabular-data-resource",
+      "description": "Policy and zero-injection artifacts evaluated at a specific online-interaction checkpoint.",
+      "schema": {
+        "missingValues": [""],
+        "fields": [
+          {
+            "name": "checkpoint_id",
+            "type": "string",
+            "constraints": {"required": true, "unique": true}
+          },
+          {
+            "name": "approach",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["baseline", "pretrained", "zero_injection"]}
+          },
+          {
+            "name": "training_seed",
+            "type": "integer",
+            "constraints": {"enum": [17, 42, 123, 1337, 71026]}
+          },
+          {
+            "name": "pairing_key",
+            "type": "string"
+          },
+          {
+            "name": "checkpoint_kind",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["initial", "intermediate", "final", "reference"]}
+          },
+          {
+            "name": "nominal_online_interactions",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "actual_online_interactions",
+            "type": "integer",
+            "constraints": {"minimum": 0}
+          },
+          {
+            "name": "actor_initialization",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["ordinary", "behavior_cloned", "not_applicable"]}
+          },
+          {
+            "name": "observation_normalization_initialization",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["ordinary_online", "offline_transferred", "not_applicable"]}
+          },
+          {
+            "name": "initial_action_std",
+            "type": "number",
+            "constraints": {"minimum": 0}
+          },
+          {
+            "name": "policy_artifact_uri",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "checkpoint_id"
+      }
+    },
+    {
+      "name": "evaluation-cases",
+      "path": "../results/evaluation_cases.csv",
+      "profile": "tabular-data-resource",
+      "description": "Fixed validation and test cases and the policy-independent eligibility counts derived from their zero-injection reference runs.",
+      "schema": {
+        "missingValues": [""],
+        "fields": [
+          {
+            "name": "case_id",
+            "type": "string",
+            "constraints": {"required": true, "unique": true}
+          },
+          {
+            "name": "split",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["validation", "test"]}
+          },
+          {
+            "name": "scenario_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "schedule_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "source_event_count",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 1, "maximum": 4}
+          },
+          {
+            "name": "reference_event_count",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0, "maximum": 4}
+          },
+          {
+            "name": "warmup_steps",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 96, "maximum": 96}
+          },
+          {
+            "name": "main_steps",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 1008, "maximum": 1008}
+          },
+          {
+            "name": "tail_steps",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 96, "maximum": 96}
+          },
+          {
+            "name": "main_normal_steps",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "main_event_steps",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "tail_event_steps",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "main_post_source_steps",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "tail_post_source_steps",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0}
+          }
+        ],
+        "primaryKey": "case_id"
+      }
+    },
+    {
+      "name": "source-events",
+      "path": "../results/source_events.csv",
+      "profile": "tabular-data-resource",
+      "description": "Arsenic source intervals belonging to each fixed evaluation schedule.",
+      "schema": {
+        "missingValues": [""],
+        "fields": [
+          {
+            "name": "event_id",
+            "type": "string",
+            "constraints": {"required": true, "unique": true}
+          },
+          {
+            "name": "case_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "source_node_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "start_step",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "end_step_exclusive",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 1}
+          },
+          {
+            "name": "mass_rate_mg_min",
+            "type": "number",
+            "constraints": {"required": true, "minimum": 0}
+          }
+        ],
+        "primaryKey": "event_id",
+        "foreignKeys": [
+          {
+            "fields": "case_id",
+            "reference": {"resource": "evaluation-cases", "fields": "case_id"}
+          }
+        ]
+      }
+    },
+    {
+      "name": "reference-windows",
+      "path": "../results/reference_windows.csv",
+      "profile": "tabular-data-resource",
+      "description": "Policy-independent reference-event clusters determined from the zero-injection replay.",
+      "schema": {
+        "missingValues": [""],
+        "fields": [
+          {
+            "name": "reference_window_id",
+            "type": "string",
+            "constraints": {"required": true, "unique": true}
+          },
+          {
+            "name": "case_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "start_step_inclusive",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "end_step_exclusive",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 1}
+          },
+          {
+            "name": "last_source_end_step",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "starts_in_window",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["main", "tail"]}
+          },
+          {
+            "name": "ends_in_window",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["main", "tail"]}
+          },
+          {
+            "name": "persistent_clearance_reached",
+            "type": "boolean",
+            "constraints": {"required": true}
+          }
+        ],
+        "primaryKey": "reference_window_id",
+        "foreignKeys": [
+          {
+            "fields": "case_id",
+            "reference": {"resource": "evaluation-cases", "fields": "case_id"}
+          }
+        ]
+      }
+    },
+    {
+      "name": "rollouts",
+      "path": "../results/rollouts.csv",
+      "profile": "tabular-data-resource",
+      "description": "One evaluation rollout for one checkpoint and one fixed case.",
+      "schema": {
+        "missingValues": [""],
+        "fields": [
+          {
+            "name": "rollout_id",
+            "type": "string",
+            "constraints": {"required": true, "unique": true}
+          },
+          {
+            "name": "checkpoint_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "case_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["completed", "failed"]}
+          },
+          {
+            "name": "deterministic_actions",
+            "type": "boolean",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "policy_memory_reset",
+            "type": "boolean",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "observation_normalization_frozen",
+            "type": "boolean",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "reward_normalization_enabled",
+            "type": "boolean",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "timeseries_role",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["none", "representative", "adverse_tail", "full"]}
+          },
+          {
+            "name": "timeseries_selection_reason",
+            "type": "string"
+          },
+          {
+            "name": "raw_artifact_uri",
+            "type": "string"
+          },
+          {
+            "name": "error_message",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "rollout_id",
+        "foreignKeys": [
+          {
+            "fields": "checkpoint_id",
+            "reference": {"resource": "checkpoints", "fields": "checkpoint_id"}
+          },
+          {
+            "fields": "case_id",
+            "reference": {"resource": "evaluation-cases", "fields": "case_id"}
+          }
+        ]
+      }
+    },
+    {
+      "name": "rollout-metrics",
+      "path": "../results/rollout_metrics.csv",
+      "profile": "tabular-data-resource",
+      "description": "Per-rollout sufficient statistics for the six physical metrics and evaluation return.",
+      "schema": {
+        "missingValues": [""],
+        "fields": [
+          {
+            "name": "rollout_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "metric_id",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "chlorine_shortfall_fraction",
+                "normal_chlorine_excess_fraction",
+                "arsenic_burden",
+                "chlorine_ceiling_violation_fraction",
+                "sustained_chlorine_excess",
+                "chlorine_use",
+                "evaluation_return"
+              ]
+            }
+          },
+          {
+            "name": "component",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["main_normal", "main_event", "main", "tail_event", "tail", "total"]}
+          },
+          {
+            "name": "value",
+            "type": "number"
+          },
+          {
+            "name": "unit",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["fraction", "mg h/L", "mg", "reward"]}
+          },
+          {
+            "name": "numerator_count",
+            "type": "integer",
+            "constraints": {"minimum": 0}
+          },
+          {
+            "name": "denominator_count",
+            "type": "integer",
+            "constraints": {"minimum": 0}
+          },
+          {
+            "name": "eligible_timestep_count",
+            "type": "integer",
+            "constraints": {"minimum": 0}
+          },
+          {
+            "name": "applicable",
+            "type": "boolean",
+            "constraints": {"required": true}
+          }
+        ],
+        "primaryKey": ["rollout_id", "metric_id", "component"],
+        "foreignKeys": [
+          {
+            "fields": "rollout_id",
+            "reference": {"resource": "rollouts", "fields": "rollout_id"}
+          }
+        ]
+      }
+    },
+    {
+      "name": "node-metrics",
+      "path": "../results/node_metrics.csv",
+      "profile": "tabular-data-resource",
+      "description": "Per-node decomposition of the physical metrics for spatial and adverse-tail analysis.",
+      "schema": {
+        "missingValues": [""],
+        "fields": [
+          {
+            "name": "rollout_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "node_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "metric_id",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "chlorine_shortfall_fraction",
+                "normal_chlorine_excess_fraction",
+                "arsenic_burden",
+                "chlorine_ceiling_violation_fraction",
+                "sustained_chlorine_excess"
+              ]
+            }
+          },
+          {
+            "name": "component",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["main_normal", "main", "tail", "total"]}
+          },
+          {
+            "name": "value",
+            "type": "number"
+          },
+          {
+            "name": "unit",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["fraction", "mg h/L"]}
+          },
+          {
+            "name": "numerator_count",
+            "type": "integer",
+            "constraints": {"minimum": 0}
+          },
+          {
+            "name": "denominator_count",
+            "type": "integer",
+            "constraints": {"minimum": 0}
+          },
+          {
+            "name": "eligible_timestep_count",
+            "type": "integer",
+            "constraints": {"minimum": 0}
+          },
+          {
+            "name": "applicable",
+            "type": "boolean",
+            "constraints": {"required": true}
+          }
+        ],
+        "primaryKey": ["rollout_id", "node_id", "metric_id", "component"],
+        "foreignKeys": [
+          {
+            "fields": "rollout_id",
+            "reference": {"resource": "rollouts", "fields": "rollout_id"}
+          }
+        ]
+      }
+    },
+    {
+      "name": "rollout-timeseries",
+      "path": "../results/rollout_timeseries.csv",
+      "profile": "tabular-data-resource",
+      "description": "Time-resolved control, reward, regime, and network aggregates for rollouts selected as supporting evidence.",
+      "schema": {
+        "missingValues": [""],
+        "fields": [
+          {
+            "name": "rollout_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "episode_step",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "elapsed_hours",
+            "type": "number",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "episode_window",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["warmup", "main", "tail"]}
+          },
+          {
+            "name": "scored",
+            "type": "boolean",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "reference_regime",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["normal", "event", "unscored"]}
+          },
+          {
+            "name": "reference_window_id",
+            "type": "string"
+          },
+          {
+            "name": "source_active",
+            "type": "boolean",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "post_source_reference_event",
+            "type": "boolean",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "normalized_action",
+            "type": "number",
+            "constraints": {"minimum": -1, "maximum": 1}
+          },
+          {
+            "name": "injection_mg_min",
+            "type": "number",
+            "constraints": {"required": true, "minimum": 0, "maximum": 500000}
+          },
+          {
+            "name": "raw_reward",
+            "type": "number"
+          },
+          {
+            "name": "recovery_active",
+            "type": "boolean"
+          },
+          {
+            "name": "clearance_progress",
+            "type": "number",
+            "constraints": {"minimum": 0, "maximum": 1}
+          },
+          {
+            "name": "transported_arsenic_sum_mg_l",
+            "type": "number",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "chlorine_min_mg_l",
+            "type": "number",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "chlorine_mean_mg_l",
+            "type": "number",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "chlorine_max_mg_l",
+            "type": "number",
+            "constraints": {"required": true, "minimum": 0}
+          }
+        ],
+        "primaryKey": ["rollout_id", "episode_step"],
+        "foreignKeys": [
+          {
+            "fields": "rollout_id",
+            "reference": {"resource": "rollouts", "fields": "rollout_id"}
+          },
+          {
+            "fields": "reference_window_id",
+            "reference": {"resource": "reference-windows", "fields": "reference_window_id"}
+          }
+        ]
+      }
+    },
+    {
+      "name": "node-timeseries",
+      "path": "../results/node_timeseries.csv",
+      "profile": "tabular-data-resource",
+      "description": "Node-level chlorine and transported arsenic traces for rollouts selected as supporting evidence.",
+      "schema": {
+        "missingValues": [""],
+        "fields": [
+          {
+            "name": "rollout_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "episode_step",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "node_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "chlorine_mg_l",
+            "type": "number",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "transported_arsenic_mg_l",
+            "type": "number",
+            "constraints": {"required": true, "minimum": 0}
+          }
+        ],
+        "primaryKey": ["rollout_id", "episode_step", "node_id"],
+        "foreignKeys": [
+          {
+            "fields": ["rollout_id", "episode_step"],
+            "reference": {"resource": "rollout-timeseries", "fields": ["rollout_id", "episode_step"]}
+          }
+        ]
+      }
+    },
+    {
+      "name": "computation-costs",
+      "path": "../results/computation_costs.csv",
+      "profile": "tabular-data-resource",
+      "description": "Stage-level runtime and resource measurements for reusable preparation, PPO training, and evaluation.",
+      "schema": {
+        "missingValues": [""],
+        "fields": [
+          {
+            "name": "cost_id",
+            "type": "string",
+            "constraints": {"required": true, "unique": true}
+          },
+          {
+            "name": "stage",
+            "type": "string",
+            "constraints": {
+              "required": true,
+              "enum": [
+                "offline_trajectory_generation",
+                "hydraulic_profile_generation",
+                "forecaster_training",
+                "mpc_teacher_generation",
+                "mpc_teacher_training_generation",
+                "mpc_teacher_fold_generation",
+                "mpc_teacher_validation_generation",
+                "behavior_cloning",
+                "ppo_training",
+                "control_evaluation",
+                "forecast_evaluation"
+              ]
+            }
+          },
+          {
+            "name": "approach",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["shared", "baseline", "pretrained"]}
+          },
+          {
+            "name": "cost_scope",
+            "type": "string",
+            "constraints": {"required": true, "enum": ["reusable_once", "per_training_seed", "per_fold", "per_evaluation"]}
+          },
+          {
+            "name": "training_seed",
+            "type": "integer",
+            "constraints": {"enum": [17, 42, 123, 1337, 71026]}
+          },
+          {
+            "name": "fold_id",
+            "type": "integer",
+            "constraints": {"minimum": 0, "maximum": 4}
+          },
+          {
+            "name": "hardware_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "execution_device",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "worker_count",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 1}
+          },
+          {
+            "name": "parallelism_description",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "wall_time_seconds",
+            "type": "number",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "simulator_steps",
+            "type": "integer",
+            "constraints": {"minimum": 0}
+          },
+          {
+            "name": "online_interactions",
+            "type": "integer",
+            "constraints": {"minimum": 0}
+          },
+          {
+            "name": "notes",
+            "type": "string"
+          }
+        ],
+        "primaryKey": "cost_id"
+      }
+    },
+    {
+      "name": "forecast-error-statistics",
+      "path": "../results/forecast_error_statistics.csv",
+      "profile": "tabular-data-resource",
+      "description": "Sufficient statistics for scenario-equal MAE and RMSE by training seed, fold-specific forecaster and horizon step.",
+      "schema": {
+        "missingValues": [""],
+        "fields": [
+          {
+            "name": "training_seed",
+            "type": "integer",
+            "constraints": {"required": true, "enum": [17, 42, 123, 1337, 71026]}
+          },
+          {
+            "name": "fold_id",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 0, "maximum": 4}
+          },
+          {
+            "name": "scenario_id",
+            "type": "string",
+            "constraints": {"required": true}
+          },
+          {
+            "name": "horizon_step",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 1, "maximum": 16}
+          },
+          {
+            "name": "absolute_error_sum_mg_l",
+            "type": "number",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "squared_error_sum_mg2_l2",
+            "type": "number",
+            "constraints": {"required": true, "minimum": 0}
+          },
+          {
+            "name": "observation_count",
+            "type": "integer",
+            "constraints": {"required": true, "minimum": 1}
+          }
+        ],
+        "primaryKey": ["training_seed", "fold_id", "scenario_id", "horizon_step"]
+      }
+    }
+  ]
+}

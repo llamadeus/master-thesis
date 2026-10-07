@@ -1,0 +1,80 @@
+# Python bytecode and cache directories
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Native extensions
+*.so
+
+# Packaging and build artifacts
+.Python
+build/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+share/python-wheels/
+var/
+wheels/
+*.egg-info/
+*.egg
+.installed.cfg
+MANIFEST
+pip-wheel-metadata/
+
+# Virtual environments
+.venv/
+.venv-windows/
+venv/
+env/
+ENV/
+.python-version
+
+# Test, coverage, and tool caches
+.coverage
+.coverage.*
+htmlcov/
+.pytest_cache/
+.hypothesis/
+.tox/
+.nox/
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Editor and OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Local temp files
+temp/
+
+# EPANET generated reports
+**/*.rpt
+
+# EPANET related temp files
+scenarios/**/msx*
+scenarios/**/en*
+
+# IJCAI25 models
+external/IJCAI25-Challenge/**/*.npz
+
+# Weights
+data/

@@ -1,0 +1,95 @@
+{
+  "source": "data/analysis/network-delays/low-source-outflow/summary.json, node_trial_cases.csv, and cases/trials/*.npz",
+  "counts": {
+    "action_batches": 811,
+    "combinations": 168,
+    "node_trial_cases": 52080,
+    "nonresponsive": 201,
+    "responsive": 51879,
+    "scenarios": 15,
+    "tail_censored": 0,
+    "trials": 1680
+  },
+  "history": [
+    {
+      "hours": 12,
+      "mean_response_seen_pct": 99.9399767880857,
+      "still_visible_cases": 168,
+      "all_junctions_settled_trials": 1526
+    },
+    {
+      "hours": 16,
+      "mean_response_seen_pct": 99.98714039796177,
+      "still_visible_cases": 31,
+      "all_junctions_settled_trials": 1649
+    },
+    {
+      "hours": 20,
+      "mean_response_seen_pct": 99.99435967322509,
+      "still_visible_cases": 13,
+      "all_junctions_settled_trials": 1667
+    },
+    {
+      "hours": 24,
+      "mean_response_seen_pct": 99.99998529064766,
+      "still_visible_cases": 1,
+      "all_junctions_settled_trials": 1679
+    },
+    {
+      "hours": 28,
+      "mean_response_seen_pct": 99.99998529064766,
+      "still_visible_cases": 1,
+      "all_junctions_settled_trials": 1679
+    },
+    {
+      "hours": 32,
+      "mean_response_seen_pct": 100.0,
+      "still_visible_cases": 0,
+      "all_junctions_settled_trials": 1680
+    }
+  ],
+  "horizons": [
+    {
+      "hours": 4,
+      "begun": 50487,
+      "peak_reached": 49854,
+      "settled": 46846
+    },
+    {
+      "hours": 6,
+      "begun": 51633,
+      "peak_reached": 51431,
+      "settled": 50097
+    },
+    {
+      "hours": 8,
+      "begun": 51803,
+      "peak_reached": 51724,
+      "settled": 51054
+    },
+    {
+      "hours": 10,
+      "begun": 51866,
+      "peak_reached": 51834,
+      "settled": 51466
+    },
+    {
+      "hours": 12,
+      "begun": 51879,
+      "peak_reached": 51868,
+      "settled": 51711
+    },
+    {
+      "hours": 14,
+      "begun": 51879,
+      "peak_reached": 51875,
+      "settled": 51808
+    },
+    {
+      "hours": 16,
+      "begun": 51879,
+      "peak_reached": 51876,
+      "settled": 51848
+    }
+  ]
+}
