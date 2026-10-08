@@ -6,6 +6,8 @@ The implementation covers both training approaches examined in the thesis. The b
 
 The submitted paper is available at [`output/thesis.pdf`](output/thesis.pdf), with the Typst source in `paper/` and the data underlying its figures and tables in `paper/dataset/` and `paper/results/`. Simulation trajectories, trained models, and raw evaluation outputs are not included in the submission.
 
+The accompanying [Results Explorer](https://thesis.teddybyte.dev/) provides an interactive view of the thesis results. It allows readers to examine individual validation and test cases, inspect simulation trajectories, and compare control approaches across training seeds.
+
 The original contributions are licensed under [MIT](LICENSE), as specified in the [License](#license) section. Attribution and licensing details for third-party material are documented in [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
 ## Reproducing the experiments
